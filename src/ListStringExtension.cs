@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Soenneker.Extensions.List.String;
 
@@ -7,7 +9,7 @@ namespace Soenneker.Extensions.List.String;
 /// </summary>
 public static class ListStringExtension
 {
-    public static void Replace(this List<string> list, string oldValue, string newValue)
+    public static void Replace(this IList<string> list, string oldValue, string newValue)
     {
         for (var i = 0; i < list.Count; i++)
         {
