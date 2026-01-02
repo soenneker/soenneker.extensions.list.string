@@ -14,7 +14,7 @@
         <AssemblyName>Soenneker.Extensions.List.String</AssemblyName>
         <PackageId>Soenneker.Extensions.List.String</PackageId>
         <PackageTags>list extension string c# .net dotnet</PackageTags>
-        <Copyright>Copyright © 2023-2025 Jake Soenneker</Copyright>
+        <Copyright>Copyright © 2023-2026 Jake Soenneker</Copyright>
         <Authors>Jake Soenneker</Authors>
         <Company>https://soenneker.com</Company>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
