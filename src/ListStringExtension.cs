@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace Soenneker.Extensions.List.String;
 
@@ -20,11 +21,35 @@ public static class ListStringExtension
     /// <remarks>
     /// This method iterates through each element in the <paramref name="list"/> and replaces all occurrences of <paramref name="oldValue"/> with <paramref name="newValue"/>.
     /// </remarks>
-    public static void Replace(this IList<string> list, string oldValue, string newValue)
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static void Replace(this List<string> list, string oldValue, string newValue)
     {
-        for (var i = 0; i < list.Count; i++)
+        if (list is null)
+            throw new ArgumentNullException(nameof(list));
+
+        if (oldValue is null)
+            throw new ArgumentNullException(nameof(oldValue));
+
+        if (newValue is null)
+            throw new ArgumentNullException(nameof(newValue));
+
+        if (oldValue.Length == 0 || list.Count == 0 || ReferenceEquals(oldValue, newValue))
+            return;
+
+        int count = list.Count;
+
+        for (int i = 0; i < count; i++)
         {
-            list[i] = list[i].Replace(oldValue, newValue);
+            string? current = list[i];
+
+            if (current is null)
+                continue;
+
+            // Avoid allocation if nothing to replace
+            if (current.IndexOf(oldValue, StringComparison.Ordinal) < 0)
+                continue;
+
+            list[i] = current.Replace(oldValue, newValue, StringComparison.Ordinal);
         }
     }
 }
