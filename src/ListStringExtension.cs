@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 namespace Soenneker.Extensions.List.String;
 
@@ -33,23 +34,32 @@ public static class ListStringExtension
         if (newValue is null)
             throw new ArgumentNullException(nameof(newValue));
 
-        if (oldValue.Length == 0 || list.Count == 0 || ReferenceEquals(oldValue, newValue))
+        if (list.Count == 0)
             return;
 
-        int count = list.Count;
+        // string.Replace throws if oldValue is empty
+        if (oldValue.Length == 0)
+            return;
 
-        for (int i = 0; i < count; i++)
+        // If they're the same value, no-op.
+        // (ReferenceEquals catches the common case where caller passes same instance.)
+        if (ReferenceEquals(oldValue, newValue) || string.Equals(oldValue, newValue, StringComparison.Ordinal))
+            return;
+
+        Span<string> span = CollectionsMarshal.AsSpan(list);
+
+        for (int i = 0; i < span.Length; i++)
         {
-            string? current = list[i];
-
+            string? current = span[i];
             if (current is null)
                 continue;
 
-            // Avoid allocation if nothing to replace
-            if (current.IndexOf(oldValue, StringComparison.Ordinal) < 0)
-                continue;
+            // Replace returns the original instance if oldValue isn't found (no allocation).
+            string replaced = current.Replace(oldValue, newValue, StringComparison.Ordinal);
 
-            list[i] = current.Replace(oldValue, newValue, StringComparison.Ordinal);
+            // Only write back when it actually changed.
+            if (!ReferenceEquals(replaced, current))
+                span[i] = replaced;
         }
     }
 }
