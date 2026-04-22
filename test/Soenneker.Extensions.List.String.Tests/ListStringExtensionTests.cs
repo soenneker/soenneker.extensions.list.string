@@ -1,11 +1,10 @@
 using Soenneker.Tests.Unit;
-using Xunit;
 
 namespace Soenneker.Extensions.List.String.Tests;
 
 public class ListStringExtensionTests : UnitTest
 {
-    [Fact]
+    [Test]
     public void Default()
     {
 
