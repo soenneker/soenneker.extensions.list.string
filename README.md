@@ -4,12 +4,25 @@
 [![](https://img.shields.io/github/actions/workflow/status/soenneker/soenneker.extensions.list.string/codeql.yml?label=CodeQL&style=for-the-badge)](https://github.com/soenneker/soenneker.extensions.list.string/actions/workflows/codeql.yml)
 
 # ![](https://user-images.githubusercontent.com/4441470/224455560-91ed3ee7-f510-4041-a8d2-3fc093025112.png) Soenneker.Extensions.List.String
-### A collection of helpful List<string> extension methods
+A collection of helpful List<string> extension methods.
 
 ## Installation
 
-```
+```bash
 dotnet add package Soenneker.Extensions.List.String
 ```
+
+## Quick start
+
+```csharp
+using Soenneker.Extensions.List.String;
+
+// Given an existing List<string> named list:
+list.Replace(oldValue, newValue);
+```
+
+## Common operations
+
+- `Replace()` - Replaces all occurrences of a specified string in each element of the list with another specified string.
 
 ## Usage
